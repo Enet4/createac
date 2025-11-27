@@ -1,0 +1,30 @@
+[package]
+name = "dosember-2025"
+version = "1.0.0"
+publish = false
+edition = "2021"
+authors = ["Eduardo Pinho <enet4mikeenet@gmail.com>"]
+description = "Create and discover creature in this game for MS-DOS"
+
+[lib]
+crate-type = ["staticlib"]
+name = "createac"
+
+[dependencies]
+dos_x = { version = "0.1.0", git = "https://github.com/Enet4/dos-rs", branch = "dosember2025" }
+minipng = "1.0.0"
+tinyrand = "0.5"
+
+[dependencies.opbinary]
+git = "https://github.com/Enet4/opbinary-rs"
+rev = "065111bd"
+default-features = false
+
+[profile.dev]
+opt-level = 1
+
+[profile.release]
+codegen-units = 1
+strip = "debuginfo"
+panic = "abort"
+lto = "fat"

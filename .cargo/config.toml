@@ -1,0 +1,5 @@
+[build]
+target = "i486-unknown-none-gnu"
+
+[unstable]
+build-std = ["core", "alloc"]
