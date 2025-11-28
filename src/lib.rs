@@ -23,7 +23,9 @@ use tinyrand::{RandRange, Seeded};
 use crate::audio::{adlib_notes_off, load_player, music_off};
 use crate::create::{main_game, MainGameOutcome};
 use crate::creature::CreatureParams;
-use crate::gfx::{fade_out, init_palette, BitmapFont, CreatureAssets, COLOR_HIGHLIGHT};
+use crate::gfx::{
+    fade_out, init_palette, BitmapFont, CreatureAssets, COLOR_HIGHLIGHT, COLOR_WHITE,
+};
 use crate::menu::MenuOutcome;
 
 /// 16x16 floppy disk icon, raw 8-bit indexed data
@@ -230,6 +232,7 @@ pub(crate) fn print_name(creature: &CreatureParams, big_font: &BitmapFont) {
 
     // centered
     let x = (320 - (text.len() as i32 * 17)) / 2;
+    big_font.draw_text(x - 1, 49, &text, COLOR_WHITE);
     big_font.draw_text(x, 50, text, COLOR_HIGHLIGHT);
 }
 
