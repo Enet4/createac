@@ -62,7 +62,7 @@ fn dos_main() {
     }
 
     // think of a way to seed the RNG later
-    let seed = 0xe7c9_1cf3_5396_dd47;
+    let seed = 0xe7a9_8cf3_2366_0d47;
 
     let rng = tinyrand::Xorshift::seed(seed);
     run(rng);
