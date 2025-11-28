@@ -394,13 +394,56 @@ pub fn init_palette(palette: &mut Palette, creature: &CreatureParams) {
     palette.0[1] = 0x3f;
     palette.0[2] = 0x00;
     // 1: black
-    // 2..14: creature-dependent
+    // 2..=3: creature-dependent
+    // 4: white
+    // 5: light grey
+    // 6: dark grey
+    // 7: grey
+    // 8: red
+    // 9: darker red
+    // 10: brown
+
     // 252: highlight color
     // 253: background color
     // 254: white
     // 255: black
 
     set_creature_palette(palette, creature);
+
+    // always white
+    palette.0[12] = 0x3c;
+    palette.0[13] = 0x3c;
+    palette.0[14] = 0x3c;
+
+    // light grey
+    palette.0[15] = 0x32;
+    palette.0[16] = 0x32;
+    palette.0[17] = 0x32;
+
+    // dark grey
+    palette.0[18] = 0x0f;
+    palette.0[19] = 0x0f;
+    palette.0[20] = 0x0f;
+
+    // grey
+    palette.0[21] = 0x1f;
+    palette.0[22] = 0x1f;
+    palette.0[23] = 0x1f;
+
+    // red
+    palette.0[24] = 0x3c;
+    palette.0[25] = 0x03;
+    palette.0[26] = 0x03;
+
+    // darker red
+    palette.0[27] = 0x1f;
+    palette.0[28] = 0x01;
+    palette.0[29] = 0x01;
+
+    // brown
+    palette.0[30] = 0x1f;
+    palette.0[31] = 0x0e;
+    palette.0[32] = 0x00;
 
     // highlight color (orange)
     palette.0[252 * 3] = 63;
@@ -421,7 +464,8 @@ pub fn init_palette(palette: &mut Palette, creature: &CreatureParams) {
 }
 
 pub fn set_creature_palette(palette: &mut Palette, creature: &CreatureParams) {
-    let body_colors = creature.body_colors();
-    palette.0[6..6 + 12].copy_from_slice(&body_colors);
+    const COLOR_SAMPLES: usize = 6;
+    let body_colors: [u8; COLOR_SAMPLES] = creature.body_colors();
+    palette.0[6..6 + COLOR_SAMPLES].copy_from_slice(&body_colors);
     palette.set();
 }

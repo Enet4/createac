@@ -43,26 +43,26 @@ impl CreatureParams {
             // white
             0 => [0x3c, 0x3c, 0x3c],
             // red
-            1 => [0x3c, 0x13, 0x13],
+            1 => [0x3c, 0x14, 0x14],
             // yellow
-            2 => [0x3c, 0x3c, 0x13],
+            2 => [0x3c, 0x3c, 0x14],
             // green
-            3 => [0x13, 0x3c, 0x13],
+            3 => [0x14, 0x3c, 0x14],
             // cyan
-            4 => [0x13, 0x3c, 0x3c],
+            4 => [0x14, 0x3c, 0x3c],
             // blue
-            5 => [0x13, 0x13, 0x3c],
+            5 => [0x16, 0x16, 0x3c],
             // magenta
-            6 => [0x3c, 0x13, 0x3c],
+            6 => [0x3c, 0x14, 0x3c],
             // brown
-            7 => [0x13, 0x13, 0x3c],
+            7 => [0x14, 0x14, 0x3c],
             // fallback to grey
             _ => [0x1f, 0x1f, 0x1f],
         }
     }
 
     /// create the palette slice for the creature's body colors
-    pub fn body_colors(&self) -> [u8; 12] {
+    pub fn body_colors(&self) -> [u8; 6] {
         let base_color = self.body_color();
         [
             // base color
@@ -73,14 +73,6 @@ impl CreatureParams {
             base_color[0] / 2,
             base_color[1] / 2,
             base_color[2] / 2,
-            // always white
-            0x3c,
-            0x3c,
-            0x3c,
-            // currently unused
-            0x3f,
-            0x3f,
-            0x00,
         ]
     }
 }

@@ -60,7 +60,7 @@ fn dos_main() {
     }
 
     // think of a way to seed the RNG later
-    let seed = 0x2389fc63;
+    let seed = 0x67c9_0c6e_934c_aa87;
 
     let rng = tinyrand::Xorshift::seed(seed);
     run(rng);
@@ -181,35 +181,43 @@ fn present_creature(assets: &Assets, creature: &CreatureParams) {
         ..
     } = assets;
 
-    let mut can_proceed = 90;
+    let mut can_proceed = 128;
     unsafe {
         // clear screen (background color)
         dos_x::vga::draw_rect(0, 0, 320, 200, 253);
     }
+
+    small_font.draw_text(86, 20, "You have created", gfx::COLOR_BLACK);
+
+    // print creature name
+    print_name(creature, big_font);
+
+    // draw creature in center of screen
+    creature_assets.draw_creature(creature, (320 - 32) / 2, (200 - 32) / 2);
+
+    let mut keystate_enter = false;
+
     loop {
         unsafe {
             vsync();
         }
 
-        small_font.draw_text(86, 20, "You have created", gfx::COLOR_BLACK);
+        adlib_player.poll(18_000);
 
-        // print creature name
-        print_name(creature, big_font);
-
-        // draw creature in center of screen
-        creature_assets.draw_creature(creature, (320 - 32) / 2, (200 - 32) / 2);
-
-        small_font.draw_text(60, 165, "Press ENTER to continue", gfx::COLOR_BLACK);
-
-        adlib_player.poll(15_000);
         if can_proceed > 0 {
             can_proceed -= 1;
             continue;
         }
+
+        small_font.draw_text(60, 165, "Press ENTER to continue", gfx::COLOR_BLACK);
+
         // check for ENTER key
-        let keystate = dos_x::key::get_keypress();
-        if keystate == 0x9c {
+        let key = dos_x::key::get_keypress();
+        if key == 0x1c {
             // key pressed
+            keystate_enter = true;
+        } else if key == 0x9c && keystate_enter {
+            // key released
             break;
         }
     }
@@ -222,7 +230,7 @@ pub(crate) fn print_name(creature: &CreatureParams, big_font: &BitmapFont) {
 
     // centered
     let x = (320 - (text.len() as i32 * 17)) / 2;
-    big_font.draw_text(x, 48, text, COLOR_HIGHLIGHT);
+    big_font.draw_text(x, 50, text, COLOR_HIGHLIGHT);
 }
 
 #[panic_handler]

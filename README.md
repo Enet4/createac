@@ -7,7 +7,7 @@ Created for the [DOSember Game Jam 2025](https://itch.io/jam/dosember-game-jam).
 ## Playing
 
 Use the arrow keys to swap each part.
-When you are happy with it, press save.
+When you are happy with it, press Done!
 Press ESC to exit.
 
 ## Building

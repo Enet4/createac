@@ -17,13 +17,6 @@ static MUSIC_VGM: &[u8] = include_bytes!("../resources/createac.vgm");
 // Hz
 const PIT_FREQUENCY: u32 = 0x1234DD;
 
-// helper macro for defining countdowns of notes as constants
-macro_rules! const_note {
-    ($name: ident, $freq: literal) => {
-        const $name: u16 = (PIT_FREQUENCY / $freq) as u16;
-    };
-}
-
 /// disable sound effects
 pub fn sound_off() {
     unsafe {
@@ -35,81 +28,6 @@ pub fn sound_off() {
 pub fn music_off() {
     unsafe {
         NO_MUSIC = true;
-    }
-}
-
-pub fn is_sound_on() -> bool {
-    unsafe { !NO_SOUND }
-}
-
-/// Play a tune using PC speaker
-pub fn play_tune() {
-    if unsafe { NO_SOUND } {
-        return;
-    }
-
-    // setting up a few constants for note countdowns
-    const_note!(NOTE_A5, 880);
-    const_note!(NOTE_CS6, 1109);
-    const_note!(NOTE_D6, 1175);
-    const_note!(NOTE_E6, 1328);
-    const_note!(NOTE_GS6, 1661);
-    const_note!(NOTE_A6, 1760);
-    const_note!(NOTE_B6, 1975);
-
-    const NOTE_VOID: u16 = 3;
-
-    // use PC speaker
-    unsafe {
-        pc_speaker_on();
-
-        // String Quintet in E Major, Op. 11, No. 5, G. 275: III. Minuetto by Boccherini
-        play_note(NOTE_A6);
-        delay(75);
-        play_note(NOTE_B6);
-        delay(75);
-        play_note(NOTE_A6);
-        delay(140);
-        play_note(NOTE_GS6);
-        delay(140);
-        play_note(NOTE_A6);
-        delay(140);
-        play_note(NOTE_B6);
-        delay(140);
-        play_note(NOTE_A6);
-        delay(140);
-
-        play_note(NOTE_VOID);
-        delay(140);
-
-        play_note(NOTE_A5);
-        delay(280);
-
-        play_note(NOTE_VOID);
-        delay(280);
-
-        play_note(NOTE_CS6);
-        delay(280);
-
-        play_note(NOTE_VOID);
-        delay(280);
-
-        play_note(NOTE_E6);
-        delay(140);
-        play_note(NOTE_VOID);
-        delay(140);
-        play_note(NOTE_E6);
-        delay(280);
-        play_note(NOTE_D6);
-        delay(140);
-        play_note(NOTE_VOID);
-        delay(140);
-        play_note(NOTE_D6);
-        delay(280);
-
-        // turn off
-        pc_speaker_off();
-        delay(140);
     }
 }
 
@@ -282,7 +200,9 @@ pub fn load_player() -> AdlibPlayer {
 
     if let Some(vgm) = &mut player.vgm {
         // add a small waiting time at the end to avoid abrupt cut-off in the loop
-        vgm.opl_commands.push(OplCommand::Wait882);
+        vgm.opl_commands.push(OplCommand::Wait735);
+        vgm.opl_commands.push(OplCommand::Wait735);
+        vgm.opl_commands.push(OplCommand::SmallWait { n: 255 });
     }
 
     player

@@ -287,6 +287,6 @@ pub fn main_game(
             creature_assets.draw_creature(creature, creature_x, creature_y);
         }
 
-        adlib_player.poll(15_000);
+        adlib_player.poll(14_400);
     }
 }
