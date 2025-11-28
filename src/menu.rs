@@ -36,8 +36,8 @@ pub fn menu(assets: &Assets, creature: &CreatureParams) -> MenuOutcome {
         vsync();
         dos_x::vga::clear_screen(253);
     }
-    big_font.draw_text(78, 22, "Create a", COLOR_WHITE);
-    big_font.draw_text(79, 23, "Create a", COLOR_BLACK);
+    big_font.draw_text(81, 22, "Create a", COLOR_WHITE);
+    big_font.draw_text(82, 23, "Create a", COLOR_BLACK);
     crate::print_name(creature, big_font);
 
     creature_assets.draw_creature(creature, 144, 84);
@@ -45,7 +45,7 @@ pub fn menu(assets: &Assets, creature: &CreatureParams) -> MenuOutcome {
     big_font.draw_text(104, 126, "Create!", COLOR_BLACK);
     big_font.draw_text(124, 152, "Exit", COLOR_BLACK);
 
-    small_font.draw_text(138, 188, "Eduardo Pinho, 2025", COLOR_BLACK);
+    small_font.draw_text(142, 189, "Eduardo Pinho, 2025", COLOR_BLACK);
 
     loop {
         unsafe {
@@ -56,11 +56,11 @@ pub fn menu(assets: &Assets, creature: &CreatureParams) -> MenuOutcome {
         const ARROW_RIGHT: u32 = 234;
         // clear regions with selection arrow
         unsafe {
-            dos_x::vga::draw_rect(ARROW_LEFT as i32, 125, 8, 32, COLOR_BACKGROUND);
-            dos_x::vga::draw_rect(ARROW_RIGHT as i32, 125, 8, 32, COLOR_BACKGROUND);
+            dos_x::vga::draw_rect(ARROW_LEFT as i32, 127, 8, 38, COLOR_BACKGROUND);
+            dos_x::vga::draw_rect(ARROW_RIGHT as i32, 127, 8, 38, COLOR_BACKGROUND);
         }
 
-        let selection_y = 128 + choice as u32 * 25;
+        let selection_y = 130 + choice as u32 * 25;
         draw_arrow_right(ARROW_LEFT, selection_y, COLOR_BLACK);
         draw_arrow_left(ARROW_RIGHT, selection_y, COLOR_BLACK);
 

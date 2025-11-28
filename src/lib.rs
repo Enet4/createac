@@ -232,8 +232,8 @@ pub(crate) fn print_name(creature: &CreatureParams, big_font: &BitmapFont) {
 
     // centered
     let x = (320 - (text.len() as i32 * 17)) / 2;
-    big_font.draw_text(x - 1, 49, &text, COLOR_WHITE);
-    big_font.draw_text(x, 50, text, COLOR_HIGHLIGHT);
+    big_font.draw_text(x - 1, 51, &text, COLOR_WHITE);
+    big_font.draw_text(x, 52, text, COLOR_HIGHLIGHT);
 }
 
 #[panic_handler]
