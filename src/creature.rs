@@ -55,7 +55,7 @@ impl CreatureParams {
             // magenta
             6 => [0x3c, 0x14, 0x3c],
             // brown
-            7 => [0x14, 0x14, 0x3c],
+            7 => [0x2c, 0x1a, 0x12],
             // fallback to grey
             _ => [0x1f, 0x1f, 0x1f],
         }
