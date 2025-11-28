@@ -1,6 +1,6 @@
 # Create-a-Creature
 
-[![ci](https://github.com/Enet4/dos-createac/actions/workflows/ci.yml/badge.svg)](https://github.com/Enet4/dos-createac/actions/workflows/ci.yml)
+[![ci](https://github.com/Enet4/createac/actions/workflows/ci.yml/badge.svg)](https://github.com/Enet4/createac/actions/workflows/ci.yml)
 
 Created for the [DOSember Game Jam 2025](https://itch.io/jam/dosember-game-jam).
 
