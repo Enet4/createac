@@ -2,10 +2,10 @@
 
 use tinyrand::RandRange;
 
-pub const NUM_SHAPES: u8 = 12;
+pub const NUM_SHAPES: u8 = 14;
 pub const NUM_COLORS: u8 = 8;
 pub const NUM_MOUTHS: u8 = 8;
-pub const NUM_EYES: u8 = 9;
+pub const NUM_EYES: u8 = 10;
 pub const NUM_LEGS: u8 = 7;
 pub const NUM_ARMS: u8 = 7;
 
@@ -115,7 +115,9 @@ impl core::fmt::Display for CreatureParams {
             9 => write!(f, "Al{display2}")?,
             10 => write!(f, "V{display2}n")?,
             11 => write!(f, "T{display2}")?,
-            _ => write!(f, "{display2}")?,
+            12 => write!(f, "B{display2}")?,
+            13 => write!(f, "K{display2}")?,
+            NUM_SHAPES.. => unreachable!(),
         };
 
         // defined by creature's limbs
@@ -184,7 +186,8 @@ impl core::fmt::Display for CreatureParams {
             6 => "yo",
             7 => "u",
             8 => "oo",
-            _ => "",
+            9 => "ey",
+            NUM_EYES.. => unreachable!(),
         };
         f.write_str(display4)?;
 
@@ -198,7 +201,7 @@ impl core::fmt::Display for CreatureParams {
             5 => "b",
             6 => "m",
             7 => "x",
-            _ => "",
+            NUM_MOUTHS.. => unreachable!(),
         };
         f.write_str(display3)
     }
