@@ -201,6 +201,12 @@ fn present_creature(assets: &Assets, creature: &CreatureParams) {
     const JUMP_SPEED: i32 = 14;
     let mut var_y = 0;
     let mut speed_y = -JUMP_SPEED;
+    let mut num_jumps: u16 = 0;
+
+    // pre-render creature
+    let mut creature_render = [gfx::COLOR_BACKGROUND; 32 * 32];
+    creature_assets.render_creature(creature, &mut creature_render);
+    let creature_render = &creature_render[..];
 
     loop {
         unsafe {
@@ -208,18 +214,35 @@ fn present_creature(assets: &Assets, creature: &CreatureParams) {
         }
 
         unsafe {
-            // clear screen in creature's place
-            dos_x::vga::draw_rect((320 - 32) / 2, 72, 32, 54, 253);
+            if num_jumps < 24 {
+                // clear screen in creature's place
+                dos_x::vga::draw_rect(144, 71, 32, 60, 253);
+            } else {
+                // after some time, more creatures will appear,
+                // so clear more
+                dos_x::vga::draw_rect(100, 71, 114, 60, 253);
+            }
         }
 
         // draw creature in center of screen
-        creature_assets.draw_creature(creature, (320 - 32) / 2, (200 - 32) / 2 + var_y);
+        unsafe {
+            dos_x::vga::blit_rect(creature_render, (32, 32), (0, 0, 32, 32), (144, 89 + var_y));
+        }
+
+        if num_jumps >= 24 {
+            // draw more creatures
+            unsafe {
+                dos_x::vga::blit_rect(creature_render, (32, 32), (0, 0, 32, 32), (100, 89 + var_y));
+                dos_x::vga::blit_rect(creature_render, (32, 32), (0, 0, 32, 32), (188, 89 + var_y));
+            }
+        }
 
         speed_y += 1;
         var_y += speed_y / 5;
         if var_y > 10 {
             var_y = 10;
             speed_y = -JUMP_SPEED;
+            num_jumps = (num_jumps + 1) & 0x3F;
         }
 
         adlib_player.poll(18_000);
