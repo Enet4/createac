@@ -141,60 +141,60 @@ pub fn main_game(
                     match selector {
                         0 => {
                             // change shape (rotate backwards)
-                            if creature.param1 == 0 {
-                                creature.param1 = (crate::creature::NUM_SHAPES as u8) - 1;
+                            if creature.shape == 0 {
+                                creature.shape = (crate::creature::NUM_SHAPES as u8) - 1;
                             } else {
-                                creature.param1 -= 1;
+                                creature.shape -= 1;
                             }
                             params_changed = true;
                             play_click_2();
                         }
                         1 => {
                             // change color
-                            if creature.param2 == 0 {
-                                creature.param2 = (crate::creature::NUM_COLORS as u8) - 1;
+                            if creature.color == 0 {
+                                creature.color = (crate::creature::NUM_COLORS as u8) - 1;
                             } else {
-                                creature.param2 -= 1;
+                                creature.color -= 1;
                             }
                             params_changed = true;
                             play_click_2();
                         }
                         2 => {
                             // change eye type
-                            if creature.param3 == 0 {
-                                creature.param3 = (crate::creature::NUM_EYES as u8) - 1;
+                            if creature.eyes == 0 {
+                                creature.eyes = (crate::creature::NUM_EYES as u8) - 1;
                             } else {
-                                creature.param3 -= 1;
+                                creature.eyes -= 1;
                             }
                             params_changed = true;
                             play_click_2();
                         }
                         3 => {
                             // change mouth
-                            if creature.param4 == 0 {
-                                creature.param4 = (crate::creature::NUM_MOUTHS as u8) - 1;
+                            if creature.mouth == 0 {
+                                creature.mouth = (crate::creature::NUM_MOUTHS as u8) - 1;
                             } else {
-                                creature.param4 -= 1;
+                                creature.mouth -= 1;
                             }
                             params_changed = true;
                             play_click_2();
                         }
                         4 => {
                             // change legs
-                            if creature.param5 == 0 {
-                                creature.param5 = (crate::creature::NUM_LEGS as u8) - 1;
+                            if creature.legs == 0 {
+                                creature.legs = (crate::creature::NUM_LEGS as u8) - 1;
                             } else {
-                                creature.param5 -= 1;
+                                creature.legs -= 1;
                             }
                             params_changed = true;
                             play_click_2();
                         }
                         5 => {
                             // change arms
-                            if creature.param6 == 0 {
-                                creature.param6 = (crate::creature::NUM_ARMS as u8) - 1;
+                            if creature.arms == 0 {
+                                creature.arms = (crate::creature::NUM_ARMS as u8) - 1;
                             } else {
-                                creature.param6 -= 1;
+                                creature.arms -= 1;
                             }
                             params_changed = true;
                             play_click_2();
@@ -215,37 +215,37 @@ pub fn main_game(
                     match selector {
                         0 => {
                             // change shape
-                            creature.param1 = (creature.param1 + 1) % crate::creature::NUM_SHAPES;
+                            creature.shape = (creature.shape + 1) % crate::creature::NUM_SHAPES;
                             params_changed = true;
                             play_click_2();
                         }
                         1 => {
                             // change color
-                            creature.param2 = (creature.param2 + 1) % crate::creature::NUM_COLORS;
+                            creature.color = (creature.color + 1) % crate::creature::NUM_COLORS;
                             params_changed = true;
                             play_click_2();
                         }
                         2 => {
                             // change eye type
-                            creature.param3 = (creature.param3 + 1) % crate::creature::NUM_EYES;
+                            creature.eyes = (creature.eyes + 1) % crate::creature::NUM_EYES;
                             params_changed = true;
                             play_click_2();
                         }
                         3 => {
                             // change mouth
-                            creature.param4 = (creature.param4 + 1) % crate::creature::NUM_MOUTHS;
+                            creature.mouth = (creature.mouth + 1) % crate::creature::NUM_MOUTHS;
                             params_changed = true;
                             play_click_2();
                         }
                         4 => {
                             // change legs
-                            creature.param5 = (creature.param5 + 1) % crate::creature::NUM_LEGS;
+                            creature.legs = (creature.legs + 1) % crate::creature::NUM_LEGS;
                             params_changed = true;
                             play_click_2();
                         }
                         5 => {
                             // change arms
-                            creature.param6 = (creature.param6 + 1) % crate::creature::NUM_ARMS;
+                            creature.arms = (creature.arms + 1) % crate::creature::NUM_ARMS;
                             params_changed = true;
                             play_click_2();
                         }

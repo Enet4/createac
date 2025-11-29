@@ -36,8 +36,8 @@ pub fn menu(assets: &Assets, creature: &CreatureParams) -> MenuOutcome {
         vsync();
         dos_x::vga::clear_screen(253);
     }
-    big_font.draw_text(81, 22, "Create a", COLOR_WHITE);
-    big_font.draw_text(82, 23, "Create a", COLOR_BLACK);
+    big_font.draw_text(82, 22, "Create a", COLOR_WHITE);
+    big_font.draw_text(83, 23, "Create a", COLOR_BLACK);
     crate::print_name(creature, big_font);
 
     creature_assets.draw_creature(creature, 144, 84);
@@ -109,6 +109,6 @@ pub fn menu(assets: &Assets, creature: &CreatureParams) -> MenuOutcome {
             }
         }
 
-        adlib_player.poll(9_200);
+        adlib_player.poll(11_000);
     }
 }

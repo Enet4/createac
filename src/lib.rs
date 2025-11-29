@@ -61,18 +61,20 @@ fn dos_main() {
         }
     }
 
-    // think of a way to seed the RNG later
-    let seed = 0xe7a9_8cf3_2366_0d47;
+    // seed the RNG
+
+    let time = dos_x::clock::get_system_clock_ticks();
+    let seed = 0xc5a0_63ab_2366_2d31 ^ ((time as u64) << 32 | (time as u64));
 
     let rng = tinyrand::Xorshift::seed(seed);
     run(rng);
 }
 
 fn run(mut rng: impl RandRange<u16>) {
-    println!("Create-a-Creature by E_net4 (2025, v0.1.0)");
+    println!("Create-a-Creature by E_net4 (2025)");
 
     unsafe {
-        delay(1_000);
+        delay(800);
     }
 
     // disable the mouse
@@ -194,14 +196,30 @@ fn present_creature(assets: &Assets, creature: &CreatureParams) {
     // print creature name
     print_name(creature, big_font);
 
-    // draw creature in center of screen
-    creature_assets.draw_creature(creature, (320 - 32) / 2, (200 - 32) / 2);
-
     let mut keystate_enter = false;
+
+    const JUMP_SPEED: i32 = 14;
+    let mut var_y = 0;
+    let mut speed_y = -JUMP_SPEED;
 
     loop {
         unsafe {
             vsync();
+        }
+
+        unsafe {
+            // clear screen in creature's place
+            dos_x::vga::draw_rect((320 - 32) / 2, 72, 32, 54, 253);
+        }
+
+        // draw creature in center of screen
+        creature_assets.draw_creature(creature, (320 - 32) / 2, (200 - 32) / 2 + var_y);
+
+        speed_y += 1;
+        var_y += speed_y / 5;
+        if var_y > 10 {
+            var_y = 10;
+            speed_y = -JUMP_SPEED;
         }
 
         adlib_player.poll(18_000);
@@ -243,7 +261,7 @@ fn handle_panic(info: &PanicInfo) -> ! {
         dos_x::vga::set_video_mode(0x02);
         println!("Program aborted: {}", info);
         println!("This is likely a bug! Please reach out:");
-        println!("    https://github.com/Enet4/dos-createac/issues/new");
+        println!("    https://github.com/Enet4/createac/issues/new");
         // exit using libc
         exit(-1);
         core::hint::unreachable_unchecked()

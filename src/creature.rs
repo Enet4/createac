@@ -2,46 +2,46 @@
 
 use tinyrand::RandRange;
 
-pub const NUM_SHAPES: u8 = 6;
+pub const NUM_SHAPES: u8 = 12;
 pub const NUM_COLORS: u8 = 8;
-pub const NUM_MOUTHS: u8 = 6;
-pub const NUM_EYES: u8 = 6;
-pub const NUM_LEGS: u8 = 6;
-pub const NUM_ARMS: u8 = 6;
+pub const NUM_MOUTHS: u8 = 8;
+pub const NUM_EYES: u8 = 9;
+pub const NUM_LEGS: u8 = 7;
+pub const NUM_ARMS: u8 = 7;
 
 #[derive(Debug, Copy, Clone)]
 pub struct CreatureParams {
     /// parameter 1: shape
-    pub param1: u8,
+    pub shape: u8,
     /// parameter 2: color
-    pub param2: u8,
+    pub color: u8,
     /// parameter 3: eyes
-    pub param3: u8,
+    pub eyes: u8,
     /// parameter 4: mouth
-    pub param4: u8,
+    pub mouth: u8,
     /// parameter 5: legs
-    pub param5: u8,
+    pub legs: u8,
     /// parameter 6: arms
-    pub param6: u8,
+    pub arms: u8,
 }
 
 impl CreatureParams {
     pub fn new_random(rng: &mut impl RandRange<u16>) -> Self {
         CreatureParams {
-            param1: rng.next_range(0..NUM_SHAPES as u16) as u8,
-            param2: rng.next_range(0..NUM_COLORS as u16) as u8,
-            param3: rng.next_range(0..NUM_EYES as u16) as u8,
-            param4: rng.next_range(0..NUM_MOUTHS as u16) as u8,
-            param5: rng.next_range(0..NUM_LEGS as u16) as u8,
-            param6: rng.next_range(0..NUM_ARMS as u16) as u8,
+            shape: rng.next_range(0..NUM_SHAPES as u16) as u8,
+            color: rng.next_range(0..NUM_COLORS as u16) as u8,
+            eyes: rng.next_range(0..NUM_EYES as u16) as u8,
+            mouth: rng.next_range(0..NUM_MOUTHS as u16) as u8,
+            legs: rng.next_range(0..NUM_LEGS as u16) as u8,
+            arms: rng.next_range(0..NUM_ARMS as u16) as u8,
         }
     }
 
     /// maps param2 to the main RGB color (in 0..64 range)
     pub fn body_color(&self) -> [u8; 3] {
-        match self.param2 {
+        match self.color {
             // white
-            0 => [0x3c, 0x3c, 0x3c],
+            0 => [0x3a, 0x3a, 0x3a],
             // red
             1 => [0x3c, 0x14, 0x14],
             // yellow
@@ -55,16 +55,20 @@ impl CreatureParams {
             // magenta
             6 => [0x3c, 0x14, 0x3c],
             // brown
-            7 => [0x2c, 0x1a, 0x12],
+            7 => [0x30, 0x20, 0x14],
             // fallback to grey
             _ => [0x1f, 0x1f, 0x1f],
         }
     }
 
     /// create the palette slice for the creature's body colors
-    pub fn body_colors(&self) -> [u8; 6] {
+    pub fn body_colors(&self) -> [u8; 12] {
         let base_color = self.body_color();
         [
+            // light shade
+            (base_color[0] + 24).min(63),
+            (base_color[1] + 24).min(63),
+            (base_color[2] + 24).min(63),
             // base color
             base_color[0],
             base_color[1],
@@ -73,6 +77,10 @@ impl CreatureParams {
             base_color[0] / 2,
             base_color[1] / 2,
             base_color[2] / 2,
+            // darker shade
+            base_color[0] / 4,
+            base_color[1] / 4,
+            base_color[2] / 4,
         ]
     }
 }
@@ -81,65 +89,114 @@ impl CreatureParams {
 impl core::fmt::Display for CreatureParams {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         // portion defined by the creature's color
-        let display2 = match self.param2 {
+        let display2 = match self.color {
             0 => "a",
             1 => "e",
             2 => "ey",
             3 => "i",
+            4 => "or",
             5 => "o",
             6 => "ar",
             7 => "ur",
-            4 => "or",
             _ => "Unknown",
         };
 
         // part 1
-        match self.param1 {
+        match self.shape {
             0 => write!(f, "Fl{display2}")?,
             1 => write!(f, "D{display2}n")?,
             2 => write!(f, "Bl{display2}")?,
-            3 => write!(f, "N{display2}n")?,
-            4 => write!(f, "Sn{display2}")?,
-            5 => write!(f, "Yl{display2}m")?,
+            3 => write!(f, "Em{display2}")?,
+            4 => write!(f, "N{display2}n")?,
+            5 => write!(f, "Sn{display2}")?,
+            6 => write!(f, "Yl{display2}m")?,
+            7 => write!(f, "H{display2}")?,
+            8 => write!(f, "J{display2}m")?,
+            9 => write!(f, "Al{display2}")?,
+            10 => write!(f, "V{display2}n")?,
+            11 => write!(f, "T{display2}")?,
             _ => write!(f, "{display2}")?,
         };
 
         // defined by creature's limbs
-        let display5 = match (self.param5, self.param6) {
+        let display5 = match (self.legs, self.arms) {
             (0, 0) => "n",
             (1, 0) => "t",
             (2, 0) => "rl",
             (3, 0) => "d",
             (4, 0) => "p",
+            (5, 0) => "b",
+            (6, 0) => "tr",
             (0, 1) => "sh",
-            (0, 2) => "ch",
-            (0, 3) => "gr",
+            (1, 1) => "wr",
+            (2, 1) => "c",
+            (3, 1) => "f",
+            (4, 1) => "k",
+            (5, 1) => "ss",
+            (6, 1) => "h",
+            (0, 2) => "bh",
+            (1, 2) => "ch",
+            (2, 2) => "fr",
+            (3, 2) => "m",
+            (4, 2) => "g",
+            (5, 2) => "kk",
+            (6, 2) => "gr",
+            (0, 3) => "ff",
+            (1, 3) => "scht",
+            (2, 3) => "",
+            (3, 3) => "ng",
+            (4, 3) => "xij",
+            (5, 3) => "th",
+            (6, 3) => "gl",
+            (0, 4) => "h",
+            (1, 4) => "yx",
+            (2, 4) => "bl",
+            (3, 4) => "nj",
+            (4, 4) => "rr",
+            (5, 4) => "l",
+            (6, 4) => "ft",
+            (0, 5) => "r",
+            (1, 5) => "st",
+            (2, 5) => "kh",
+            (3, 5) => "v",
+            (4, 5) => "j",
+            (5, 5) => "wh",
+            (6, 5) => "br",
+            (0, 6) => "w",
+            (1, 6) => "pl",
+            (2, 6) => "ll",
+            (3, 6) => "cl",
+            (4, 6) => "z",
+            (5, 6) => "sw",
+            (6, 6) => "gg",
             _ => "",
         };
         f.write_str(display5)?;
 
         // defined by creature's eyes
-        let display4 = match self.param3 {
+        let display4 = match self.eyes {
             0 => "i",
             1 => "o",
-            2 => "u",
+            2 => "ow",
             3 => "e",
             4 => "a",
-            5 => "yo",
-            6 => "ya",
+            5 => "ya",
+            6 => "yo",
+            7 => "u",
+            8 => "oo",
             _ => "",
         };
         f.write_str(display4)?;
 
         // defined by creature's mouth
-        let display3 = match self.param4 {
+        let display3 = match self.mouth {
             0 => "n",
             1 => "ty",
             2 => "d",
-            3 => "m",
+            3 => "r",
             4 => "z",
             5 => "b",
-            6 => "pl",
+            6 => "m",
             7 => "x",
             _ => "",
         };

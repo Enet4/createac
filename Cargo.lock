@@ -3,26 +3,26 @@
 version = 4
 
 [[package]]
-name = "djgpp"
-version = "0.1.0"
-source = "git+https://github.com/Enet4/dos-rs?branch=dosember2025#d551bd63a7a493ed05d87b0f06043f17dd664908"
-
-[[package]]
-name = "dos_x"
-version = "0.1.0"
-source = "git+https://github.com/Enet4/dos-rs?branch=dosember2025#d551bd63a7a493ed05d87b0f06043f17dd664908"
-dependencies = [
- "djgpp",
-]
-
-[[package]]
-name = "dosember-2025"
+name = "createac"
 version = "1.0.0"
 dependencies = [
  "dos_x",
  "minipng",
  "opbinary",
  "tinyrand",
+]
+
+[[package]]
+name = "djgpp"
+version = "0.1.0"
+source = "git+https://github.com/Enet4/dos-rs?branch=dosember2025#871d22bb085dcbdf75c29e0584254f1d44a8f152"
+
+[[package]]
+name = "dos_x"
+version = "0.1.0"
+source = "git+https://github.com/Enet4/dos-rs?branch=dosember2025#871d22bb085dcbdf75c29e0584254f1d44a8f152"
+dependencies = [
+ "djgpp",
 ]
 
 [[package]]

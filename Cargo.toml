@@ -1,5 +1,5 @@
 [package]
-name = "dosember-2025"
+name = "createac"
 version = "1.0.0"
 publish = false
 edition = "2021"
@@ -21,7 +21,9 @@ rev = "065111bd"
 default-features = false
 
 [profile.dev]
+codegen-units = 1
 opt-level = 1
+panic = "abort"
 
 [profile.release]
 codegen-units = 1

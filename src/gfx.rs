@@ -67,7 +67,7 @@ impl CreatureAssets {
     /// Render the creature into a buffer.
     pub fn render_creature(&self, params: &CreatureParams, buffer: &mut [u8; 32 * 32]) {
         // render creature legs first
-        let legs_index = params.param5 as u32;
+        let legs_index = params.legs as u32;
         let legs_x = legs_index * 32;
         for j in 9..32 {
             for i in 0..32 {
@@ -81,7 +81,7 @@ impl CreatureAssets {
         }
 
         // render creature shape to buffer
-        let shape_index = params.param1 as u32;
+        let shape_index = params.shape as u32;
         let shape_x = shape_index * 32;
 
         for row in 1..31 {
@@ -96,7 +96,7 @@ impl CreatureAssets {
         }
 
         // render arms
-        let arms_index = params.param6 as u32;
+        let arms_index = params.arms as u32;
         let arms_x = arms_index * 32;
         for j in 2..32 {
             for i in 0..32 {
@@ -110,7 +110,7 @@ impl CreatureAssets {
         }
 
         // render mouth
-        let mouth_index = params.param4 as u32;
+        let mouth_index = params.mouth as u32;
         let mouth_x = mouth_index * 32;
 
         for j in 5..28 {
@@ -125,7 +125,7 @@ impl CreatureAssets {
         }
 
         // draw eyes on top
-        let eyes_index = params.param3 as u32;
+        let eyes_index = params.eyes as u32;
         let eyes_x = eyes_index * 32;
 
         // we use a tiny trick here, since we do not expect eye pixels around the boundaries
@@ -389,61 +389,68 @@ pub fn init_palette(palette: &mut Palette, creature: &CreatureParams) {
 
     // set up palette:
     // 0: reserved for transparency
-    // (setting to magenta for testing purposes)
-    palette.0[0] = 0x30;
-    palette.0[1] = 0x3f;
-    palette.0[2] = 0x00;
     // 1: black
-    // 2..=3: creature-dependent
-    // 4: white
-    // 5: light grey
-    // 6: dark grey
-    // 7: grey
-    // 8: red
-    // 9: darker red
-    // 10: brown
-
-    // 252: highlight color
+    // 2: white
+    // 3: creature light
+    // 4: creature regular
+    // 5: creature dark
+    // 6: creature darker
+    // 7: light grey
+    // 8: grey
+    // 9: dark grey
+    // 10: red
+    // 11: darker red
+    // 12: brown
+    // 13..=251: unused
+    // 252: highlight color (orange-ish)
     // 253: background color
     // 254: white
     // 255: black
 
+    // (setting color 0 to magenta for testing purposes
+    // as it is never really used anyway)
+    palette.0[0] = 0x30;
+    palette.0[1] = 0x3f;
+    palette.0[2] = 0x00;
+
+    // black is already black
+
+    // white
+    palette.0[6] = 0x3c;
+    palette.0[7] = 0x3c;
+    palette.0[8] = 0x3c;
+
     set_creature_palette(palette, creature);
 
-    // always white
-    palette.0[12] = 0x3c;
-    palette.0[13] = 0x3c;
-    palette.0[14] = 0x3c;
-
     // light grey
-    palette.0[15] = 0x32;
-    palette.0[16] = 0x32;
-    palette.0[17] = 0x32;
+    palette.0[21] = 0x32;
+    palette.0[22] = 0x32;
+    palette.0[23] = 0x32;
 
     // dark grey
-    palette.0[18] = 0x0f;
-    palette.0[19] = 0x0f;
-    palette.0[20] = 0x0f;
+    palette.0[24] = 0x0f;
+    palette.0[25] = 0x0f;
+    palette.0[26] = 0x0f;
 
     // grey
-    palette.0[21] = 0x1f;
-    palette.0[22] = 0x1f;
-    palette.0[23] = 0x1f;
+    palette.0[27] = 0x1f;
+    palette.0[28] = 0x1f;
+    palette.0[29] = 0x1f;
 
     // red
-    palette.0[24] = 0x3c;
-    palette.0[25] = 0x03;
-    palette.0[26] = 0x03;
+    palette.0[30] = 0x3c;
+    palette.0[31] = 0x03;
+    palette.0[32] = 0x03;
 
     // darker red
-    palette.0[27] = 0x1f;
-    palette.0[28] = 0x01;
-    palette.0[29] = 0x01;
+    palette.0[33] = 0x1f;
+    palette.0[34] = 0x01;
+    palette.0[35] = 0x01;
 
     // brown
-    palette.0[30] = 0x1f;
-    palette.0[31] = 0x0e;
-    palette.0[32] = 0x00;
+    palette.0[36] = 0x1f;
+    palette.0[37] = 0x0e;
+    palette.0[38] = 0x00;
 
     // highlight color (orange)
     palette.0[252 * 3] = 63;
@@ -464,8 +471,9 @@ pub fn init_palette(palette: &mut Palette, creature: &CreatureParams) {
 }
 
 pub fn set_creature_palette(palette: &mut Palette, creature: &CreatureParams) {
-    const COLOR_SAMPLES: usize = 6;
+    // 4 colors, 3 samples each
+    const COLOR_SAMPLES: usize = 4 * 3;
     let body_colors: [u8; COLOR_SAMPLES] = creature.body_colors();
-    palette.0[6..6 + COLOR_SAMPLES].copy_from_slice(&body_colors);
+    palette.0[9..9 + COLOR_SAMPLES].copy_from_slice(&body_colors);
     palette.set();
 }
