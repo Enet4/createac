@@ -29,9 +29,7 @@ Then:
 - Run `./build.sh`
 
 You will find the .exe file in `build/release/`.
-
-(Adding `debug` to `./build.sh` would build it in debug mode,
-but it doesn't work at the moment.)
+Adding `debug` to `./build.sh` builds it in debug mode.
 
 ## Running
 
