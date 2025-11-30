@@ -72,13 +72,14 @@ jobs:
       - name: Create bundle
         run: |
           ./bundle.sh
-          cp -r bundle/index.html bundle/js-dos dist/js-dos/
-          touch dist/js-dos/.nojekyll
+          cp -r bundle/index.html bundle/js-dos dist/
+          touch dist/.nojekyll
+          rm -rf dist/release
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Everything is in the dist/js-dos folder
-          path: "dist/js-dos"
+          # Everything is in the dist folder
+          path: "dist"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
