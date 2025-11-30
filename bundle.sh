@@ -19,6 +19,6 @@ zip -q dos_createac.zip \
 rm -f $APPNAME.exe
 
 # rename it as dos_createac.jsdos
-cp dos_createac.zip ../dist/js-dos/dos_createac.jsdos
+cp dos_createac.zip ../dist/dos_createac.jsdos
 rm dos_createac.zip
-echo "Created bundle dist/js-dos/dos_createac.jsdos"
+echo "Created bundle dist/dos_createac.jsdos"
